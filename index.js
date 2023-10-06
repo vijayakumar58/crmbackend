@@ -13,7 +13,7 @@ app.listen(process.env.PORT || 3000);
 //middleware
 app.use(express.json());
 app.use(cors({
-    origin : "http://localhost:3001"
+    origin : "https://crmfrontend.netlify.app"
 }))
 
 const Authenticate = (req,res,next) => {
