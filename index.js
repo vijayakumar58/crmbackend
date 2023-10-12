@@ -177,7 +177,7 @@ app.get('/admins',Authenticate, async function(req,res){
 })
 
 //get users in admin account
-app.get('/admins',Authenticate, async function(req,res){
+app.get('/adminusers',Authenticate, async function(req,res){
     try {
         const connection = await mongoClient.connect(URL);
         const db = connection.db(DB);
@@ -186,6 +186,19 @@ app.get('/admins',Authenticate, async function(req,res){
         res.json(allusersinAdmin);
     } catch (error) {
         console.log(error);
+        res.status(500).json({message:"Something Went Wrong"})
+    }
+})
+
+//Edit Admin in user
+app.put('/adminuser/:id',Authenticate, async function(req,res){
+    try {
+        const connection = await mongoClient.connect(URL);
+        const db = connection.db(DB);
+        const view = await db.collection('users').findOneAndUpdate({_id: new mongodb.ObjectId(req.params.id)},{$set:req.body});
+        await connection.close();
+        res.json(view);
+    } catch (error) {
         res.status(500).json({message:"Something Went Wrong"})
     }
 })
